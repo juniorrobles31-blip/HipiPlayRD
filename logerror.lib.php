@@ -1,10 +1,9 @@
-﻿<?php
-$good = isset($good) ? $good : "good";
-$error = isset($error) ? $error : "error";
-
-if (isset($_GET[$good])) {
-    echo '<div class="good">* Se ejecutó correctamente</div>';
-} elseif (isset($_GET[$error])) {
-    echo '<div class="error">* ' . htmlspecialchars($_GET[$error], ENT_QUOTES, "UTF-8") . '</div>';
+<?php   
+if(isset($_GET[GOOD])){ 
+	echo '<div class="alert alert-success"> <b> '.PROCESS_EXECUTED.'</b></div>'; 
+}elseif(isset($_GET[ERROR])){ 
+	echo '<div class="alert alert-danger"><b>** '.$_GET[ERROR].'</b></div>';
+}elseif(isset($_GET[GOODMSG])){ 
+	echo '<div class="alert alert-success"> '.$_GET[GOODMSG].'</div>'; 
 }
 ?>

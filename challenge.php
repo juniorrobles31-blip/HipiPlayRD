@@ -1,6 +1,5 @@
 <?php
 
-
 require_once(dirname(__FILE__) . '/config.php');
 
 function createChallengeString() {
@@ -15,7 +14,7 @@ function createChallengeString() {
  	}
  	
  	// Store challenge string in session
-	 session_name('ruleta_session_id');
+	 session_name('zuzuvama_session');
 	@session_start();
 	global $CHALLENGE_STRING_SESSION_VAR_NAME;
  	$_SESSION[$CHALLENGE_STRING_SESSION_VAR_NAME] = $challenge_string;
@@ -31,7 +30,7 @@ function createChallengeString() {
  	global $CHALLENGE_STRING_SESSION_VAR_NAME;
  	
  	// Check if a valid challenge string does not exist
-	 session_name('ruleta_session_id');
+	 session_name('zuzuvama_session');
  	@session_start(); 
 	if(!isset($_SESSION[$CHALLENGE_STRING_SESSION_VAR_NAME])) {
  		return FALSE;
@@ -67,7 +66,7 @@ function createChallengeString() {
  	if($challenge_string === FALSE) { return FALSE; }
  	
  	// Set content type
- 	redirigir("Content-type: image/png");
+ 	header("Content-type: image/png");
 
  	// Get character sizes and string sizes
  	global $CHALLENGE_STRING_FONT_SIZE;

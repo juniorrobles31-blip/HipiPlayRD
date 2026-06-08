@@ -1,0 +1,134 @@
+RewriteEngine On 
+RewriteBase /
+RewriteCond %{SERVER_PORT} 80 
+RewriteCond %{ENV:HTTPS} !on [NC]
+RewriteRule ^(.*)$ https://www.zuzuvama.com/$1 [R,L]
+
+
+
+#------------------------------------------------------------------------------
+# Configuration to limit access by bots.
+#------------------------------------------------------------------------------
+# Allow only GET and POST verbs
+RewriteCond %{REQUEST_METHOD} !^(GET|POST)$ [NC,OR]
+
+# Ban Typical Vulnerability Scanners and others
+# Kick out Script Kiddies
+RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(libwww-perl|curl|wget|python|nikto|wkito|pikto|scan|acunetix).* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^.*(winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner).* [NC,OR]
+
+# Ban Search Engines, Crawlers to your administrative panel
+# No reasons to access from bots
+# Ultimately Better than the useless robots.txt
+# Did google respect robots.txt?
+# Try google: intitle:phpMyAdmin intext:"Welcome to phpMyAdmin *.*.*" intext:"Log in" -wiki -forum -forums -questions intext:"Cookies must be enabled"
+
+#RewriteCond %{HTTP_USER_AGENT} ^.*(AdsBot-Google|ia_archiver|Scooter|Ask.Jeeves|Baiduspider|Exabot|FAST.Enterprise.Crawler|FAST-WebCrawler|www\.neomo\.de|Gigabot|Mediapartners-Google|Google.Desktop|Feedfetcher-Google|Googlebot|heise-IT-Markt-Crawler|heritrix|ibm.com\cs/crawler|ICCrawler|ichiro|MJ12bot|MetagerBot|msnbot-NewsBlogs|msnbot|msnbot-media|NG-Search|lucene.apache.org|NutchCVS|OmniExplorer_Bot|online.link.validator|psbot0|Seekbot|Sensis.Web.Crawler|SEO.search.Crawler|Seoma.\[SEO.Crawler\]|SEOsearch|Snappy|www.urltrends.com|www.tkl.iis.u-tokyo.ac.jp/~crawler|SynooBot|crawleradmin.t-info@telekom.de|TurnitinBot|voyager|W3.SiteSearch.Crawler|W3C-checklink|W3C_Validator|www.WISEnutbot.com|yacybot|Yahoo-MMCrawler|Yahoo\!.DE.Slurp|Yahoo\!.Slurp|YahooSeeker).* [NC]
+#RewriteRule .* - [F]
+
+
+# BLOCK COUNTRY BY IP RANGE
+Order Deny,Allow
+Deny from all
+
+# Local
+allow from 10.0.0.
+allow from 127.0.0.
+allow from 192.168.0.
+
+# Allow from JUEGOS DEL DINERO
+allow from 160.153.78.97
+
+# Allow from DOMINICAN REPUBLIC (DO)
+#
+allow from 64.32.64.0/18
+allow from 66.98.0.0/18
+allow from 66.98.64.0/19
+allow from 131.221.4.0/22
+allow from 138.36.24.0/22
+allow from 138.97.248.0/22
+allow from 138.99.236.0/22
+allow from 138.255.248.0/22
+allow from 143.0.24.0/22
+allow from 143.137.80.0/22
+allow from 148.0.0.0/16
+allow from 148.101.0.0/16
+allow from 148.103.0.0/16
+allow from 148.255.0.0/16
+allow from 152.0.0.0/16
+allow from 152.166.0.0/15
+allow from 179.43.192.0/18
+allow from 179.49.80.0/20
+allow from 179.51.64.0/20
+allow from 179.52.0.0/15
+allow from 181.36.0.0/15
+allow from 181.224.168.0/22
+allow from 181.224.204.0/22
+allow from 186.1.64.0/18
+allow from 186.6.0.0/16
+allow from 186.7.0.0/16
+allow from 186.33.64.0/18
+allow from 186.120.0.0/17
+allow from 186.120.128.0/17
+allow from 186.148.88.0/21
+allow from 186.149.0.0/16
+allow from 186.150.0.0/16
+allow from 190.0.64.0/19
+allow from 190.6.128.0/20
+allow from 190.6.144.0/20
+allow from 190.8.32.0/20
+allow from 190.52.224.0/20
+allow from 190.52.240.0/20
+allow from 190.80.128.0/18
+allow from 190.80.192.0/18
+allow from 190.94.0.0/19
+allow from 190.94.32.0/19
+allow from 190.94.64.0/18
+allow from 190.103.180.0/22
+allow from 190.106.112.0/21
+allow from 190.110.0.0/19
+allow from 190.110.32.0/19
+allow from 190.113.64.0/20
+allow from 190.113.240.0/22
+allow from 190.122.96.0/20
+allow from 190.122.112.0/20
+allow from 190.124.64.0/19
+allow from 190.166.0.0/17
+allow from 190.166.128.0/17
+allow from 190.167.0.0/16
+allow from 190.211.176.0/20
+allow from 191.97.88.0/21
+allow from 191.97.104.0/22
+allow from 191.98.208.0/21
+allow from 191.102.240.0/22
+allow from 196.3.74.0/23
+allow from 196.3.76.0/22
+allow from 196.3.80.0/21
+allow from 196.3.88.0/23
+allow from 196.3.106.0/24
+allow from 200.1.154.0/24
+allow from 200.1.155.0/24
+allow from 200.10.142.0/24
+allow from 200.10.162.0/24
+allow from 200.14.79.0/24
+allow from 200.16.90.0/23
+allow from 200.26.168.0/21
+allow from 200.42.192.0/19
+allow from 200.42.224.0/20
+allow from 200.42.240.0/20
+allow from 200.58.240.0/21
+allow from 200.88.0.0/19
+allow from 200.88.32.0/19
+allow from 200.88.64.0/18
+allow from 200.88.128.0/19
+allow from 200.88.160.0/19
+allow from 200.88.192.0/18
+allow from 200.89.88.0/21
+allow from 201.131.50.0/24
+allow from 201.131.106.0/24
+allow from 201.131.107.0/24
+allow from 201.221.126.0/24
+allow from 201.229.128.0/18
+allow from 201.229.192.0/18
+allow from 204.126.128.0/23

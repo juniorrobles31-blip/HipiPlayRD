@@ -1,26 +1,57 @@
-<ul data-role="listview">
-	<li class=""><a href="?page=home" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("home");?>"><?=$LANG["home"]?></a></li>
-    <li><a href="?page=info" class="ui-btn ui-btn-icon-right ui-icon-info <?php activePage("info");?>"><?=$LANG["how.win"]?></a></li>
-    <li><a href="?page=promo" class="ui-btn ui-btn-icon-right ui-icon-info <?php activePage("promo");?>"><?=$LANG["sponsor"]?></a></li>
-	<li><?=$LANG["game"]?></li>
-	<li><a href="?page=game" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("game");?>"><?=$LANG["all"]?></a></li>
-	<li><a href="?page=puntazo" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("puntazo");?>"><?=$LANG["game.puntazo"]?></a></li>
-    <!--<li><a href="?page=conoce" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("conoce");?>"><?=$LANG["game.conoce"]?></a></li>-->
-	<li><a href="?page=dado_directo" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("dado_directo");?>"><?=$LANG["game.dice.1"]?></a></li>
-	<li><a href="?page=super_dado" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("super_dado");?>"><?=$LANG["game.dice.2"]?></a></li>
-	<li><a href="?page=dado_tripleta" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("dado_tripleta");?>"><?=$LANG["game.dice.3"]?></a></li>
-	<li><a href="?page=ruleta" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("ruleta");?>"><?=$LANG["game.roulette"]?></a></li>
-	<li><a href="?page=caballos" class="ui-btn ui-btn-icon-right ui-icon-carat-r <?php activePage("caballos");?>"><?=$LANG["game.horse"]?></a></li>
+<?php
+ob_start( );
 
-	<li><?=$LANG["user"]?></li>
-<?php if (!isset($_SESSION["id"])) { ?>
+
+require_once("include/lib/variables.lib.php");
+require_once("include/lib/functions.lib.php");
+//include("include/lib/setting.lib.php");
+
+
+
+
+$page = ""; if(isset($_GET['page'])){$page =$_GET['page'];}
+$page = str_replace(".","",$page);// remueve el punto para evitar que se muevan a carpetas superiores
+////-----------------------------------------------------
+//// check session login
+////-----------------------------------------------------
+sec_session_start();
 	
-    <li><a href="#panel_user" onClick="setFocus('username',500);" class="ui-btn ui-btn-icon-right ui-icon-user <?php activePage("login");?>"><?=$LANG["login"]?></a></li>
-    <li><a href="?page=regist"  class="ui-btn ui-btn-icon-right ui-icon-user <?php activePage("regist");?>"><?=$LANG["signup"]?></a></li>
+//if(isset($_SESSION['ID'])&&isset($_SESSION['role'])){
+					
+////-----------------------------------------------------
+//// session time
+////-----------------------------------------------------
+	/*
+	if ($_SESSION['expireSession'] < time()-$timeout){	
+		echo "<script>alert('La session ha expirado222');</script>";
+		$urlLogout = true;		
+	}else{
+		$_SESSION['expireSession'] = time();
+		echo "<script>alert('Actualizo: ".$_SESSION['expireSession']."');</script>";
+	}*/	
 
-<?php }else{ ?>
-    <li><a href="?page=profile" class="ui-btn ui-btn-icon-right ui-icon-user <?php activePage("profile");?>"><?php echo $logname;?></a></li>
-    <li><a href="?page=logout" class="ui-btn ui-btn-icon-right ui-icon-power <?php activePage("logout");?>"><?=$LANG["exit"]?></a></li>
+	/*if(isset($urlLogout)){
+		$file = "include/gui/logout.inc.php";
+	}elseif(!empty($page)){
+		if ( in_array($_SESSION['role'], array('ADM','ADS'), true ) ) {
+			if($_GET['page']=='logout'){
+				$file = "include/gui/logout.inc.php";
+			}
+		}else{
+			$file = "include/gui/".$page.".inc.php";
+		}
+	}
+}else{
+  $file = "include/gui/login.inc.php";
+}*/
+$file = "include/gui/".$page.".inc.php";// Remover cuando este listo
+require_once("include/menu/header.php");
+$CtrlPage = true;
 
-<?php } ?>
-</ul>
+if(file_exists($file)){ include_once($file); }
+
+require_once 'include/menu/footer.php'; 
+
+
+ob_end_flush( );
+?>

@@ -1,0 +1,12 @@
+{
+  "name": "juega123-horse-audit-pusher",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "push:audit": "node push_pending_audits.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.4"
+  }
+}

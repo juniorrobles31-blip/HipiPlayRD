@@ -1,7 +1,7 @@
 <?php
 
 // Length of challenge string 
-$CHALLENGE_STRING_LENGTH = 6;
+$CHALLENGE_STRING_LENGTH = 1;
 
 // Characters that will be used in challenge string
 $CHALLENGE_STRING_LETTERS = 'ABCDEFGHJKMNPQRTUVWXY123456789';
@@ -9,7 +9,8 @@ $CHALLENGE_STRING_LETTERS = 'ABCDEFGHJKMNPQRTUVWXY123456789';
 // Name of session variable that will be used by the script.
 // You shouldn't need to change this unless it collides with a
 // session variable you are using.  
-$CHALLENGE_STRING_SESSION_VAR_NAME = 'roulette_challenge_string';
+//$CHALLENGE_STRING_SESSION_VAR_NAME = 'roulette_challenge_string';
+$CHALLENGE_STRING_SESSION_VAR_NAME = 'frame_session_id';
 
 // Font size of challenge string in image
 $CHALLENGE_STRING_FONT_SIZE = 5;
