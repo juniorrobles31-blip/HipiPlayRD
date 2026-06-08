@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule api/v1/(.*)$ api/v1/api.php?request=$1 [QSA,NC,L]
+
+    # En producción puedes forzar HTTPS, pero en localhost/XAMPP no.
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1) [NC]
+    RewriteCond %{SERVER_PORT} 80
+    RewriteRule (.*) https://%{HTTP_HOST}/$1 [R,L]
+</IfModule>

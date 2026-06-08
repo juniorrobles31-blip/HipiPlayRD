@@ -1,7 +1,7 @@
-<?php
+﻿<?php
 /**
  * System.php local compatible con PHP 8.x.
- * Sustituye el PEAR System.php antiguo de XAMPP cuando alguna librería legacy lo requiere.
+ * Sustituye el PEAR System.php antiguo de XAMPP cuando alguna librerÃ­a legacy lo requiere.
  */
 if (!class_exists('System')) {
     class System {
@@ -58,3 +58,4 @@ if (!class_exists('System')) {
     }
 }
 ?>
+
