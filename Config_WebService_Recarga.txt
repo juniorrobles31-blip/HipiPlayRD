@@ -1,0 +1,6 @@
+﻿TipoTransacciones
+
+1- Apuesta
+2- Apuesta Ganada
+3- Apuesta Perdida
+4- Apuesta No Valida

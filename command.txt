@@ -1,0 +1,6 @@
+
+
+/usr/local/bin/php -q /home/adminrdequipos/public_html/juegosdeldinero/change.php >/dev/null 2>&1
+
+
+/usr/local/bin/php -q $HOME/public_html/juegosdeldinero/change.php >/dev/null 2>&1

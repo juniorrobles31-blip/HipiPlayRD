@@ -1,0 +1,104 @@
+html, body
+{
+	height: 100%;
+}
+
+
+body
+{
+	margin: 0px;
+	padding: 0px;
+	font:12px "Trebuchet MS";
+	
+}
+
+#wrapper
+{
+	overflow: hidden;
+	width: 760px;	
+	background: #333333;
+	color:#FFFFFF;
+	min-height:303px;
+}
+.yellow{
+	font: bold 14px "Kozuka Mincho Pro EL";
+	color:#cfa100;	
+}
+.red{	
+	color:#ff0000;
+}
+.error{		
+	border:1px solid #990000; 
+	background-color:#ff0000; 
+	color:#FFFFFF; 
+	padding:2px; 
+	padding-left:2px;
+	font-weight:600;
+}
+
+.good {
+		
+	border:1px solid #003300;
+	background-color:#006600;
+	color:#FFFFFF;
+	padding:4px;
+	padding-left:6px;
+		 
+}
+.highlighter:hover {
+	background:#720000;
+}
+
+table.result {
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: outset;
+	border-color: #a2d94b;
+	border-collapse: collapse;
+	
+}
+table.result th {
+	border-width: 1px;
+	padding: 1px;
+	border-style: dashed;
+	border-color: #a2d94b;	
+	-moz-border-radius: ;
+}
+table.result td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: dashed;
+	border-color: #a2d94b;	
+	-moz-border-radius: ;
+}
+
+.tb1 {
+	background: url(../images/rounded1.gif) no-repeat;
+	height: 26px;
+	border: 0;
+	width: 174px;
+	color:#FFF;
+	position: relative;
+	background:#262626 !important;
+	background-color:#262626 !important;
+}
+
+.error{		
+	border:1px solid #990000; 
+	background-color:#ff0000; 
+	color:#FFFFFF; 
+	padding:2px; 
+	padding-left:2px;
+	font-weight:600;
+}
+.green{	
+font:12px "Trebuchet MS";
+color:#a2d847;
+text-decoration:none;
+	}
+.green:hover{	
+font:12px "Trebuchet MS";
+color:#779816;
+text-decoration:underline;
+
+}

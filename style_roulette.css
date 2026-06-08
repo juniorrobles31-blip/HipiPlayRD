@@ -1,0 +1,91 @@
+html, body
+{
+	height: 100%;
+	width: 100%;
+}
+
+
+body
+{
+	margin: 0px;
+	padding: 0px;
+	color:#FFFFFF;
+	background:#333333;
+	font:14px "Mongolian Baiti";
+	
+}
+
+#wrapper
+{
+	padding: 5px 20px 20px 20px;
+}
+
+#logo{	
+	background: url(../images/logo.png);
+	height:86px;
+	background-repeat:no-repeat;
+	background-position:center; 
+}
+
+.space_top_left{
+	margin-top:200px;
+}
+
+.space_top_right{
+	margin-top:100px;
+}
+.clear { clear: both; }
+
+.green{
+	font-size:40px;
+color:#33FF00;
+
+}
+
+	
+.white{
+	font-size:20px;
+color:#FFFFFF;
+text-decoration:none;	
+}
+.white_promo{
+	font-size:20px;
+color:#FFFFFF;
+text-decoration:none;	
+}
+	
+.yellow{
+	font: bold 16px "Kozuka Mincho Pro EL";
+	color:#cfa100;	
+}
+#right_panel{
+	width:240px;
+}
+
+.line{
+	border-top: 1px solid #a2a2a2;	
+}
+
+
+table.result {
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: outset;
+	border-color: #a2d94b;
+	border-collapse: collapse;
+	
+}
+table.result th {
+	border-width: 1px;
+	padding: 1px;
+	border-style: dashed;
+	border-color: #a2d94b;	
+	-moz-border-radius: ;
+}
+table.result td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: dashed;
+	border-color: #a2d94b;	
+	-moz-border-radius: ;
+}
