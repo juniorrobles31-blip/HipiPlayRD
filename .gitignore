@@ -1,0 +1,16 @@
+﻿node_modules/
+dist/
+build/
+.cache/
+.vite/
+.env
+*.zip
+*.rar
+*.7z
+*.mp4
+*.mov
+*.avi
+*.webm
+*.mkv
+.DS_Store
+Thumbs.db
