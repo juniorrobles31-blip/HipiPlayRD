@@ -12037,6 +12037,52 @@
       "totalBurned": 0,
       "ownerMinuteAmount": 0,
       "createdAt": "2026-06-08T21:32:52.312Z"
+    },
+    {
+      "id": "race_1781138700000",
+      "code": "DERBY-202606110045",
+      "status": "revealed",
+      "startsAt": "2026-06-11T00:45:00.000Z",
+      "betClosesAt": "2026-06-11T00:45:55.000Z",
+      "revealsAt": "2026-06-11T00:46:00.000Z",
+      "seedCommit": "87e2b1d829385109c510121515c747944dc539b54c642a71ff46247490042c2d",
+      "totalVolume": 0,
+      "totalRealVolume": 0,
+      "totalWinnersPaid": 0,
+      "totalBurned": 0,
+      "ownerMinuteAmount": 0,
+      "createdAt": "2026-06-11T00:46:24.024Z",
+      "serverSeed": "73e7ae1c7dc54593ccbbdc39885e7d6e478231c9393db5f01119f1dab6f5259b",
+      "resultOrder": [
+        3,
+        4,
+        6,
+        5,
+        2,
+        1
+      ],
+      "top3": [
+        3,
+        4,
+        6
+      ],
+      "revealedAt": "2026-06-11T00:46:24.029Z",
+      "auditHash": "5c47bed5460b19bb544066ff231dd7c44db213ecd70d59a4751286379c2f0ff8"
+    },
+    {
+      "id": "race_1781138760000",
+      "code": "DERBY-202606110046",
+      "status": "betting",
+      "startsAt": "2026-06-11T00:46:00.000Z",
+      "betClosesAt": "2026-06-11T00:46:55.000Z",
+      "revealsAt": "2026-06-11T00:47:00.000Z",
+      "seedCommit": "bcb2f04b6bfb40614532fae554a87790f814e7281b0cc887c99bc6f59c2c0170",
+      "totalVolume": 0,
+      "totalRealVolume": 0,
+      "totalWinnersPaid": 0,
+      "totalBurned": 0,
+      "ownerMinuteAmount": 0,
+      "createdAt": "2026-06-11T00:46:24.029Z"
     }
   ],
   "derbyBets": [
@@ -20316,6 +20362,36 @@
       "chainHash": "ca22666452d6410ed9372246a4b0b18ddbbb80af74f4d384a4b9f80370554acf",
       "blockchainStatus": "pending",
       "createdAt": "2026-06-08T21:32:52.312Z"
+    },
+    {
+      "id": "54L4os1lyaQDXMl4p9IDi",
+      "eventType": "DERBY_RACE_CREATED",
+      "eventId": "race_1781138700000",
+      "payloadHash": "432d1db809458cd7d9ef10d8dd8b1fb044d6d7cbfad87cb8b7b776a850ff9de3",
+      "previousHash": "ca22666452d6410ed9372246a4b0b18ddbbb80af74f4d384a4b9f80370554acf",
+      "chainHash": "04e491b42e3d53e5faed2d398a5bb531d0d04b50c7cb2451398849696e46543b",
+      "blockchainStatus": "pending",
+      "createdAt": "2026-06-11T00:46:24.027Z"
+    },
+    {
+      "id": "U9G6JCW-35CAt45LVajPy",
+      "eventType": "DERBY_RACE_REVEALED",
+      "eventId": "race_1781138700000",
+      "payloadHash": "ec0183ab2ea196665dceac6254d2181c9eb232b8c15567478ae5648506243f7e",
+      "previousHash": "04e491b42e3d53e5faed2d398a5bb531d0d04b50c7cb2451398849696e46543b",
+      "chainHash": "5c47bed5460b19bb544066ff231dd7c44db213ecd70d59a4751286379c2f0ff8",
+      "blockchainStatus": "pending",
+      "createdAt": "2026-06-11T00:46:24.029Z"
+    },
+    {
+      "id": "lI3we3QGa03cY70Aa833-",
+      "eventType": "DERBY_RACE_CREATED",
+      "eventId": "race_1781138760000",
+      "payloadHash": "14ead1e07c867b5a7be3d0f0f7bb8616e72a9ef71bcbe7d18dc8ddb1c4c60500",
+      "previousHash": "5c47bed5460b19bb544066ff231dd7c44db213ecd70d59a4751286379c2f0ff8",
+      "chainHash": "12474f9e36c5d94ac9595e6f22648c9b25291603eeb783c9e3ce8d35a592b5e1",
+      "blockchainStatus": "pending",
+      "createdAt": "2026-06-11T00:46:24.029Z"
     }
   ],
   "referralLinks": [],

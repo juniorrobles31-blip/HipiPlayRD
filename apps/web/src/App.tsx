@@ -8,7 +8,6 @@ import { dbGetAll, LocalDerbyBet, LocalLedgerMovement, LocalWalletState } from '
 import { getLocalWallet, initLocalWallet } from './localWallet';
 import { localDerbyHistory, placeLocalDerbyBet, resolvePendingLocalBets } from './localLedger';
 import { syncPendingQueue } from './syncQueue';
-import { HorsePreparationScreen } from './components/HorsePreparationScreen';
 import { RaceVideoEngine } from './components/raceVideoEngine/RaceVideoEngine';
 import { ServerRaceResultPanel } from './components/raceVideoEngine/ServerRaceResultPanel';
 import { BettingHorsesPreview } from './components/raceVideoEngine/BettingHorsesPreview';
@@ -538,7 +537,6 @@ function DerbyGame({ user, wallet, refreshLocal }: { user: User; wallet: LocalWa
   const [loading, setLoading] = useState(false);
   const [serverRaceState, setServerRaceState] = useState<ServerRaceState | null>(null);
   const [serverOnline, setServerOnline] = useState(false);
-  const [serverSessionStarted, setServerSessionStarted] = useState(false);
   const [serverSyncError, setServerSyncError] = useState('');
   const [serverPlayerResult, setServerPlayerResult] = useState<ServerPlayerResult | null>(null);
   const [userBetsByRace, setUserBetsByRace] = useState<Record<string, UserRaceBet>>({});
@@ -596,8 +594,6 @@ function DerbyGame({ user, wallet, refreshLocal }: { user: User; wallet: LocalWa
   }
 
     useEffect(() => {
-    if (!serverSessionStarted) return;
-
     let alive = true;
 
     async function syncServerState() {
@@ -695,14 +691,8 @@ function DerbyGame({ user, wallet, refreshLocal }: { user: User; wallet: LocalWa
     };
   }, [serverOnline, serverRaceState?.phase, serverRaceState?.roundId, user.id]);
 
-  const bettingOpen = Boolean(
-    !loading &&
-    !currentUserBet &&
-    (
-      !serverSessionStarted ||
-      (serverOnline && serverRaceState && serverRaceState.phase === 'BETTING')
-    )
-  );
+  const bettingOpen = Boolean(serverOnline && serverRaceState && serverRaceState.phase === 'BETTING' && !currentUserBet);
+
   
   const [videoRaceSession, setVideoRaceSession] = useState<{
     raceId: string;
@@ -819,26 +809,13 @@ useEffect(() => {
   }
 
   async function bet() {
-    let activeServerState = serverRaceState;
-
-    if (!serverSessionStarted) {
-      setServerSessionStarted(true);
-    }
-
-    try {
-      activeServerState = await getServerRaceState();
-      setServerRaceState(activeServerState);
-      setServerOnline(true);
-      setServerSyncError('');
-    } catch (error) {
-      setServerOnline(false);
-      setServerSyncError(error instanceof Error ? error.message : 'No se pudo conectar con el servidor.');
-      setMessage('No hay conexión con el servidor. No se puede apostar.');
+    if (!serverOnline || !serverRaceState) {
+      setMessage('No hay conexiÃ³n con el servidor. No se puede apostar.');
       return;
     }
 
-    if (!activeServerState || activeServerState.phase !== 'BETTING') {
-      setMessage('Las apuestas están cerradas. Espera la próxima ronda.');
+    if (serverRaceState.phase !== 'BETTING') {
+      setMessage('Las apuestas estÃ¡n cerradas. Espera la prÃ³xima ronda.');
       return;
     }
 
@@ -869,7 +846,7 @@ useEffect(() => {
         balanceTotal
       });
 
-      const roundId = res.bet?.roundId || res.bet?.raceNumber || activeServerState.roundId;
+      const roundId = res.bet?.roundId || res.bet?.raceNumber || serverRaceState.roundId;
       const betId = res.bet?.id || `SERVER-${roundId}-${Date.now()}`;
 
       const placedBet: UserRaceBet = {
@@ -909,8 +886,7 @@ useEffect(() => {
     }
   }
 
-  return (
-    <div className="player-screen">
+  return <div className="player-screen">
     <PlayerSummary wallet={wallet} pendingCount={pendingCount} lastBet={lastBet} lastResult={lastResult} />
 <div className="cycle-steps glass">
       <div className={cycle.phase === 'betting' ? 'step active' : 'step done'}><span>01</span><strong>Apuestas</strong><small>60 segundos</small></div>
@@ -920,13 +896,11 @@ useEffect(() => {
       <div className={cycle.phase === 'result' ? 'step active' : lastResult ? 'step done' : 'step'}><span>03</span><strong>Resultado</strong><small>Al terminar</small></div>
     </div>
         <div className={`server-sync-card ${serverOnline ? 'online' : 'offline'}`}>
-      <strong>{!serverSessionStarted ? 'Listo para apostar' : serverOnline ? 'Servidor conectado' : 'Sin conexión con el servidor'}</strong>
+      <strong>{serverOnline ? 'Servidor conectado' : 'Sin conexiÃ³n con el servidor'}</strong>
       <span>
-        {!serverSessionStarted
-          ? 'Selecciona tu caballo, coloca tus monedas y presiona Apostar.'
-          : serverOnline && serverRaceState
-            ? `Ronda ${serverRaceState.roundId} · ${serverRaceState.phase === 'BETTING' ? 'Apuestas abiertas' : serverRaceState.phase === 'RACE' ? 'Carrera en curso' : 'Resultado oficial'}`
-            : serverSyncError || 'Esperando sincronización...'}
+        {serverOnline && serverRaceState
+          ? `Ronda ${serverRaceState.roundId} Â· ${serverRaceState.phase === 'BETTING' ? 'Apuestas abiertas' : serverRaceState.phase === 'RACE' ? 'Carrera en curso' : 'Resultado oficial'} Â· ${serverRaceState.secondsRemaining}s`
+          : serverSyncError || 'Esperando sincronizaciÃ³n...'}
       </span>
     </div>
 
@@ -958,74 +932,49 @@ useEffect(() => {
         Apostar
       </button>
     </div>
-{!serverSessionStarted && !currentUserBet ? (
-  <div className="idle-betting-screen">
-    <div className="idle-betting-card">
-      <h2>Elige tu caballo, apuesta y al ganar recibe el doble de lo apostado.</h2>
-    </div>
-  </div>
-  ) : serverOnline && serverRaceState ? (
-    serverRaceState.phase === 'BETTING' ? (
-      currentUserBet ? (
-        <HorsePreparationScreen
-          selectedHorse={currentUserBet.selectedHorse}
-          roundId={serverRaceState.roundId}
-        />
-      ) : (
+{serverOnline && serverRaceState ? (
+      serverRaceState.phase === 'BETTING' ? (
         <BettingHorsesPreview
-          secondsLeft={0}
-          selectedHorse={horse}
+          secondsLeft={serverRaceState.secondsRemaining}
+          selectedHorse={currentUserBet?.selectedHorse}
         />
-      )
-    ) : serverRaceState.phase === 'RACE' ? (
-      currentUserBet ? (
+      ) : serverRaceState.phase === 'RACE' ? (
         <RaceVideoEngine
+          key={`server-race-${serverRaceState.roundId}`}
           raceId={`server-round-${serverRaceState.roundId}`}
-          winners={(serverRaceState.winners || []).map((winner: any) => Number(typeof winner === 'number' ? winner : winner.horseId ?? winner.id ?? winner.horse)).filter((horseId: number) => Number.isFinite(horseId))}
-          selectedHorse={currentUserBet.selectedHorse}
-          betAmount={currentUserBet.amount}
+          winners={[]}
+          selectedHorse={currentUserBet?.selectedHorse}
+          betAmount={currentUserBet?.amount || 0}
+          autoPlay
+          startAtSeconds={Math.max(
+            0,
+            (serverRaceState.raceSeconds || 20) - serverRaceState.secondsRemaining
+          )}
           onFinish={() => {
-            console.log('Carrera visual local terminó, esperando fase RESULTS del servidor:', serverRaceState.roundId);
+            console.log('Carrera visual local terminÃ³, esperando fase RESULTS del servidor:', serverRaceState.roundId);
           }}
         />
       ) : (
-        <div className="idle-betting-screen">
-          <div className="idle-betting-card">
-            <span className="idle-betting-status">Carrera en curso</span>
-            <h2>Esperando nueva apuesta</h2>
-            <p>No tienes apuesta activa en esta carrera.</p>
-          </div>
-        </div>
-      )
-    ) : (
-      currentUserBet ? (
         <ServerRaceResultPanel
           winners={serverRaceState.winners || []}
-          selectedHorse={currentUserBet.selectedHorse}
-          secondsLeft={serverRaceState.secondsRemaining || 0}
+          selectedHorse={currentUserBet?.selectedHorse}
+          betAmount={currentUserBet?.amount || 0}
+          secondsLeft={serverRaceState.secondsRemaining}
+          serverPlayerResult={serverPlayerResult}
         />
-      ) : (
-        <div className="idle-betting-screen">
-          <div className="idle-betting-card">
-            <span className="idle-betting-status">Resultado omitido</span>
-            <h2>Sin apuesta activa</h2>
-            <p>Los resultados solo se muestran cuando participas en la carrera.</p>
-          </div>
-        </div>
       )
-    )
-  ) : (
-    <div className="idle-betting-screen">
-      <div className="idle-betting-card">
-        <span className="idle-betting-status">Listo para apostar</span>
-        <h2>Selecciona tu caballo</h2>
-        <p>Presiona Apostar para conectarte al servidor y registrar tu boleto.</p>
-      </div>
-    </div>
-  )}
-
-    </div>
-  );
+    ) : (
+      <section className="server-required-panel glass">
+        <strong>Sin conexiÃ³n con el servidor</strong>
+        <span>
+          Las apuestas, el cronÃ³metro, la carrera y los resultados se mostrarÃ¡n cuando la PWA sincronice con el servidor central.
+        </span>
+      </section>
+    )}
+    {message && <div className={`result-card ${message.startsWith('GANASTE') ? 'win' : message.startsWith('PERDISTE') ? 'lose' : 'neutral'}`}>
+      <strong>{message}</strong>
+    </div>}
+  </div>;
 }
 
 function HistoryPanel({ userId }: { userId: string }) {
@@ -1063,7 +1012,7 @@ function HistoryPanel({ userId }: { userId: string }) {
       alive = false;
       window.clearInterval(timer);
     };
-  }, []);
+  }, [userId]);
 
   return (
     <section className="glass history-card clean-history server-history-card">
@@ -1209,12 +1158,6 @@ export function App() {
     </nav>
   </div>;
 }
-
-
-
-
-
-
 
 
 
